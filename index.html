@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-      <meta charset="UTF-8">
+  <meta charset="UTF-8">
 <title>大连扶贫面试</title>
 <link rel="stylesheet" href="vendor/bootstrap.min.css">
-<script src="build/AgoraRTC-development.js"></script>
+<script src="AgoraRTCSDK-2.3.1.js"></script>
 <script src="vendor/jquery.js"></script>
 </head>
 
 <body>
 <div id="div_device" class="panel panel-default">
 <div class="select">
-<label for="audioSource">Audio source: </label><select id="audioSource"></select>
+<label for="audioSource">选择话筒: </label><select id="audioSource"></select>
 </div>
 <div class="select">
-<label for="videoSource">Video source: </label><select id="videoSource"></select>
+<label for="videoSource">选择摄像头: </label><select id="videoSource"></select>
 </div>
 </div>
 
 <div id="div_join" class="panel panel-default">
 <div class="panel-body">
-房间秘钥:  <input id="appId" type="text" value="0c95e43cb1ff447eb4da369e37e2adc6" size="36"></input>
+房间秘钥: <input id="key" type="text" value="0c95e43cb1ff447eb4da369e37e2adc6" size="36"></input>
 频道号（不用更改）: <input id="channel" type="text" value="1000" size="4"></input>
 Host: <input id="video" type="checkbox" checked></input>
-<button id="join" class="btn btn-primary" onclick="join()">加入</button>
+<button id="join" class="btn btn-primary" onclick="join()">进入</button>
 <button id="leave" class="btn btn-primary" onclick="leave()">离开</button>
 <!--<button id="publish" class="btn btn-primary" onclick="publish()">Publish</button>
 <button id="unpublish" class="btn btn-primary" onclick="unpublish()">Unpublish</button>-->
@@ -52,7 +52,7 @@ Host: <input id="video" type="checkbox" checked></input>
 <script language="javascript">
 
 if(!AgoraRTC.checkSystemRequirements()) {
-  alert("Your browser does not support WebRTC!");
+  alert("browser is no support webRTC");
 }
 
 /* select Log type */
@@ -78,9 +78,9 @@ function join() {
   document.getElementById("video").disabled = true;
   var channel_key = null;
 
-  console.log("Init AgoraRTC client with App ID: " + appId.value);
+  console.log("Init AgoraRTC client with vendor key: " + key.value);
   client = AgoraRTC.createClient({mode: 'interop'});
-  client.init(appId.value, function () {
+  client.init(key.value, function () {
     console.log("AgoraRTC client initialized");
     client.join(channel_key, channel.value, null, function(uid) {
       console.log("User " + uid + " join channel successfully");
@@ -92,7 +92,7 @@ function join() {
         //localStream = AgoraRTC.createStream({streamID: uid, audio: false, cameraId: camera, microphoneId: microphone, video: false, screen: true, extensionId: 'minllpmhdgpndnkomcoccfekfegnlikg'});
         if (document.getElementById("video").checked) {
           localStream.setVideoProfile('720p_3');
-
+          
         }
 
         // The user has granted access to the camera and mic.
